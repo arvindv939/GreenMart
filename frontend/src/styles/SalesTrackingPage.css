@@ -1,0 +1,29 @@
+.sales-tracking-container {
+  padding: 20px;
+  background-color: #f4f8f4;
+}
+
+h2 {
+  text-align: center;
+  color: green;
+}
+
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sales-table th,
+.sales-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.sales-table th {
+  background: green;
+  color: white;
+}
