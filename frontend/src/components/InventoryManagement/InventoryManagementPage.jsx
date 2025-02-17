@@ -3,9 +3,9 @@ import {
   fetchProducts,
   addProduct,
   updateProduct,
-} from "../../services/productServices.js"; // Corrected import path
+} from "../../services/productServices.js";
 import ProductCard from "./ProductCard.jsx";
-import "../../styles/InventoryPage.css"; // Import the CSS file
+import "../../styles/InventoryPage.css";
 
 const InventoryManagementPage = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +17,7 @@ const InventoryManagementPage = () => {
     quantity: "",
     measurement: "kg",
     image: null,
-    imageUrl: "",
+    imageUrl: ""
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -57,8 +57,8 @@ const InventoryManagementPage = () => {
     if (type === "file") {
       setNewProduct((prev) => ({
         ...prev,
-        image: files[0], // Save the file
-        imageUrl: "", // Clear imageUrl when file is selected
+        image: files[0],
+        imageUrl: "",
       }));
     } else {
       setNewProduct((prev) => ({
@@ -93,14 +93,14 @@ const InventoryManagementPage = () => {
     formData.append("measurement", newProduct.measurement);
 
     if (newProduct.image) {
-      formData.append("image", newProduct.image); // Append image file if available
+      formData.append("image", newProduct.image);
     } else if (newProduct.imageUrl) {
-      formData.append("imageUrl", newProduct.imageUrl); // Append image URL if no file
+      formData.append("imageUrl", newProduct.imageUrl);
     }
 
     try {
-      const addedProduct = await addProduct(formData); // Pass FormData to addProduct service
-      setProducts([...products, addedProduct]); // Update only the new product, avoid full re-fetch
+      const addedProduct = await addProduct(formData);
+      setProducts([...products, addedProduct]);
       setNewProduct({
         name: "",
         description: "",
@@ -109,7 +109,7 @@ const InventoryManagementPage = () => {
         quantity: "",
         measurement: "kg",
         image: null,
-        imageUrl: "",
+        imageUrl: ""
       });
     } catch (error) {
       setError("Failed to add product");
@@ -135,7 +135,6 @@ const InventoryManagementPage = () => {
 
   return (
     <div className="inventory-container">
-      {/* Left Side: Product Entry Form */}
       <div className="product-form-container">
         <h2>Add New Product</h2>
         {error && <p className="error-message">{error}</p>}
@@ -174,81 +173,80 @@ const InventoryManagementPage = () => {
           <div className="input-group">
             <input
               type="number"
-              name="quantity"
-              placeholder="Quantity *"
-              value={newProduct.quantity}
-              onChange={handleChange}
-              required
-            />
-            <select
-              name="measurement"
-              value={newProduct.measurement}
-              onChange={handleChange}
-            >
-              {measurementUnits.map((unit) => (
-                <option key={unit} value={unit}>
-                  {unit}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <input
-            type="number"
-            name="price"
-            placeholder="Price (₹) *"
-            value={newProduct.price}
+            name="quantity"
+            placeholder="Quantity *"
+            value={newProduct.quantity}
             onChange={handleChange}
             required
           />
-
-          <div className="image-upload">
-            <p>Upload an image or enter a URL</p>
-            <input
-              type="file"
-              name="image"
-              onChange={handleChange}
-              accept="image/*"
-            />
-            <p>OR</p>
-            <input
-              type="text"
-              name="imageUrl"
-              placeholder="Enter image URL"
-              value={newProduct.imageUrl}
-              onChange={handleChange}
-            />
-          </div>
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Adding..." : "Add Product"}
-          </button>
-        </form>
-      </div>
-
-      {/* Right Side: Product List */}
-      <div className="product-list">
-        <h2>Product List</h2>
-        {loading && <p>Loading products...</p>}
-
-        {!loading && (!products || products.length === 0) && (
-          <p>No products available</p>
-        )}
-
-        <div className="grid-container">
-          {products &&
-            products.length > 0 &&
-            products.map((product) => (
-              <ProductCard
-                key={product._id}
-                product={product}
-                handleUpdateProduct={handleUpdateProduct}
-              />
+          <select
+            name="measurement"
+            value={newProduct.measurement}
+            onChange={handleChange}
+          >
+            {measurementUnits.map((unit) => (
+              <option key={unit} value={unit}>
+                {unit}
+              </option>
             ))}
+          </select>
         </div>
+
+        <input
+          type="number"
+          name="price"
+          placeholder="Price (₹) *"
+          value={newProduct.price}
+          onChange={handleChange}
+          required
+        />
+
+        <div className="image-upload">
+          <p>Upload an image or enter a URL</p>
+          <input
+            type="file"
+            name="image"
+            onChange={handleChange}
+            accept="image/*"
+          />
+          <p>OR</p>
+          <input
+            type="text"
+            name="imageUrl"
+            placeholder="Enter image URL"
+            value={newProduct.imageUrl}
+            onChange={handleChange}
+          />
+        </div>
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Adding..." : "Add Product"}
+        </button>
+      </form>
+    </div>
+
+    <div className="product-list">
+      <h2>Product List</h2>
+      {loading && <p>Loading products...</p>}
+
+      {!loading && (!products || products.length === 0) && (
+        <p>No products available</p>
+      )}
+
+      <div className="grid-container">
+        {products &&
+          products.length > 0 &&
+          products.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              handleUpdateProduct={handleUpdateProduct}
+            />
+          ))}
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default InventoryManagementPage;
